@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget"/>
+    <style name="Widget.CountDownView"></style>
+    <style name="Widget.CountDownView.Light"></style>
+</resources>
