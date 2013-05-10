@@ -9,51 +9,68 @@ It also uses [Android-RobotoTextView](https://github.com/johnkil/Android-RobotoT
 
 # Interested? Here's how to use it
 
-In XML...
+Sample layout...
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.alexfu.countdownview.widget.CountDownView
-    	android:id="@+id/countdownview"
+        android:id="@+id/countdownview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+</FrameLayout>
+```
 
 Dont forget to set the custom namespace... `xmlns:custom="http://schemas.android.com/apk/res-auto"`.
 By default, the above wont show you anything. Choose to display **hours** or **minutes** or **seconds** or **milliseconds**, or all 4.
 
 Show only **hours**:
 
-    <com.alexfu.countdownview.widget.CountDownView
-    	android:id="@+id/countdownview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:showHour="true"/>
+```xml
+<com.alexfu.countdownview.widget.CountDownView
+    android:id="@+id/countdownview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    custom:showHour="true"/>
+```
 
 Show **hours** and **minutes**:
 
-    <com.alexfu.countdownview.widget.CountDownView
-    	android:id="@+id/countdownview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:showHour="true"
-        custom:showMin="true"/>
+```xml
+<com.alexfu.countdownview.widget.CountDownView
+    android:id="@+id/countdownview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    custom:showHour="true"
+    custom:showMin="true"/>
+```
 
 You can also set text colors for digits and units:
 
-    <com.alexfu.countdownview.widget.CountDownView
-    	android:id="@+id/countdownview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:showHour="true"
-        custom:showMin="true"
-        custom:numberColor="@color/black"
-        custom:unitColor="@color/grey"/>
+```xml
+<com.alexfu.countdownview.widget.CountDownView
+    android:id="@+id/countdownview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    custom:showHour="true"
+    custom:showMin="true"
+    custom:numberColor="@color/black"
+    custom:unitColor="@color/grey"/>
+```
 
 In code:
 
-    CountDownView cdv = (CountDownView) findViewById(R.id.countdownview);
-    cdv.setInitialTime(30000); // Initial time of 30 seconds.
-    cdv.start();
-    cdv.stop();
-    cdv.reset();
+```java
+CountDownView cdv = (CountDownView) findViewById(R.id.countdownview);
+cdv.setInitialTime(30000); // Initial time of 30 seconds.
+cdv.start();
+cdv.stop();
+cdv.reset();
+```
 
 # TODO
 
