@@ -22,13 +22,9 @@ Sample layout...
         android:id="@+id/countdownview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-</FrameLayout>
-```
 
 </FrameLayout>
 ```
-
-Dont forget to set the custom namespace... `xmlns:custom="http://schemas.android.com/apk/res-auto"`.
 By default, the above wont show you anything. Choose to display **hours** or **minutes** or **seconds** or **milliseconds**, or all 4.
 
 Show only **hours**:
