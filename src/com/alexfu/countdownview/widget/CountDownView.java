@@ -68,17 +68,21 @@ public class CountDownView extends RelativeLayout {
         }
     }
 
-    public void setBeginTime(long millisInFuture) {
+    public void setInitialTime(long millisInFuture) {
         mBeginTime = millisInFuture;
+        setCurrentTime(millisInFuture);
     }
 
-    public void setTimer(long millisInFuture) {
+    public void setCurrentTime(long millisInFuture) {
         mCurrentMillis = millisInFuture;
         setTime(millisInFuture);
     }
 
     private void setTime(long millisInFuture) {
         mTime.setTimeInMillis(millisInFuture);
+        if(mHours != null)
+            mHours.setText(mFormatter.format(mTime.get(Calendar.HOUR)));
+
         if(mMinutes != null)
             mMinutes.setText(mFormatter.format(mTime.get(Calendar.MINUTE)));
 
