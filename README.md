@@ -22,6 +22,8 @@ Sample layout...
         android:id="@+id/countdownview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+</FrameLayout>
+```
 
 </FrameLayout>
 ```
