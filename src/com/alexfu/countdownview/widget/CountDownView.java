@@ -68,11 +68,21 @@ public class CountDownView extends RelativeLayout {
         }
     }
 
+    /**
+     * Sets the initial time for this countdown. This is fixed and will
+     * not change unless a call to {@link #setInitialTime} is made.
+     * @param millisInFuture
+     */
     public void setInitialTime(long millisInFuture) {
         mBeginTime = millisInFuture;
         setCurrentTime(millisInFuture);
     }
 
+    /**
+     * Sets the current countdown time. May not necessarily be the same
+     * as the initial countdown time.
+     * @param millisInFuture
+     */
     public void setCurrentTime(long millisInFuture) {
         mCurrentMillis = millisInFuture;
         setTime(millisInFuture);
@@ -93,6 +103,9 @@ public class CountDownView extends RelativeLayout {
             mMilliseconds.setText(mFormatter.format(mTime.get(Calendar.MILLISECOND)));
     }
 
+    /**
+     * Starts the timer.
+     */
     public void start() {
         start(mCurrentMillis);
     }
@@ -113,6 +126,9 @@ public class CountDownView extends RelativeLayout {
         }.start();
     }
 
+    /**
+     * Stops the timer.
+     */
     public void stop() {
         if(mTimer != null) {
             mTimer.cancel();
@@ -121,14 +137,25 @@ public class CountDownView extends RelativeLayout {
         }
     }
 
+    /**
+     * Resets the timer.
+     */
     public void reset() {
         stop();
         mCurrentMillis = mBeginTime;
         setTime(mCurrentMillis);
     }
 
+    /**
+     * Checks if the countdown timer is currently running.
+     * @return true if running, false otherwise.
+     */
     public boolean isTimerRunning() { return mIsTimerRunning; }
 
+    /**
+     * Gets the current time of the countdown timer.
+     * @return a long that represents the current time in milliseconds.
+     */
     public long getCurrentMillis() {
         return mCurrentMillis;
     }
