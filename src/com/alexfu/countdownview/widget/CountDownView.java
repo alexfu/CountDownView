@@ -107,12 +107,8 @@ public class CountDownView extends RelativeLayout {
      * Starts the timer.
      */
     public void start() {
-        start(mCurrentMillis);
-    }
-
-    public void start(long millisInFuture) {
         mIsTimerRunning = true;
-        mTimer = new CountDownTimer(millisInFuture, 10) {
+        mTimer = new CountDownTimer(mCurrentMillis, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mCurrentMillis = millisUntilFinished;
