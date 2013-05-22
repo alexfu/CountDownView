@@ -9,6 +9,12 @@ It also uses [Android-RobotoTextView](https://github.com/johnkil/Android-RobotoT
 
 # Interested? Here's how to use it
 
+First, specify the following in your `AndroidManifest.xml`. This library uses a [Service](http://developer.android.com/reference/android/app/Service.html) to handle the [CountDownTimer](http://developer.android.com/reference/android/os/CountDownTimer.html).
+
+```xml
+<service android:name="com.alexfu.countdownview.core.TimerService"/>
+```
+
 Sample layout...
 
 ```xml
