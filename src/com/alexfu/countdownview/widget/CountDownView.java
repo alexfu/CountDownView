@@ -1,26 +1,51 @@
 package com.alexfu.countdownview.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
-import android.os.CountDownTimer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.alexfu.countdownview.R;
+import com.alexfu.countdownview.core.TimerService;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class CountDownView extends RelativeLayout {
-    private CountDownTimer mTimer;
     private TextView mHours, mMinutes, mSeconds, mMilliseconds;
-    private long mBeginTime, mCurrentMillis;
-    private boolean mIsTimerRunning = false;
+    private long mCurrentMillis, mBeginTime;
+    private boolean mIsTimerRunning = false, mIsAlarmRunning = false;
+    private Intent mTimerIntent;
+    private String mAlarmSoundPath;
+
     private static final Calendar mTime = Calendar.getInstance();
     private static final DecimalFormat mFormatter = new DecimalFormat("00");
+
+    private Messenger mMessenger = new Messenger(new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mCurrentMillis = (Long) msg.obj;
+            if(mCurrentMillis == 0) {
+                mIsAlarmRunning = true;
+                onCountDownFinished();
+            }
+            updateUI(mCurrentMillis);
+        }
+    });
+
+    private void onCountDownFinished() {
+        mIsTimerRunning = false;
+        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.blink));
+    }
 
     public CountDownView(Context context) {
         this(context, null);
@@ -109,29 +134,20 @@ public class CountDownView extends RelativeLayout {
      */
     public void start() {
         mIsTimerRunning = true;
-        mTimer = new CountDownTimer(mCurrentMillis, 10) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mCurrentMillis = millisUntilFinished;
-                setTime(mCurrentMillis);
-            }
-
-            @Override
-            public void onFinish() {
-                setTime(0);
-            }
-        }.start();
+        mTimerIntent.putExtra("messenger", mMessenger);
+        mTimerIntent.putExtra("millis", mCurrentMillis);
+        if(mAlarmSoundPath != null)
+            mTimerIntent.putExtra("alarm_sound", mAlarmSoundPath);
+        getContext().startService(mTimerIntent);
     }
 
     /**
      * Stops the timer.
      */
     public void stop() {
-        if(mTimer != null) {
-            mTimer.cancel();
-            mCurrentMillis = mTime.getTimeInMillis();
-            mIsTimerRunning = false;
-        }
+        mIsTimerRunning = false;
+        clearAnimation();
+        getContext().stopService(mTimerIntent);
     }
 
     /**
