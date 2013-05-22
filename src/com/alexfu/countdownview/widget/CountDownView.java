@@ -32,8 +32,9 @@ public class CountDownView extends RelativeLayout {
 
     public CountDownView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.countdownview_main, this, true);
+        mTimerIntent = new Intent(context, TimerService.class);
+
+        LayoutInflater.from(context).inflate(R.layout.countdownview_main, this, true);
 
         TypedArray values = context.obtainStyledAttributes(attrs, R.styleable.CountDownView);
         int numColorId = values.getResourceId(R.styleable.CountDownView_numberColor, android.R.attr.textColor);
@@ -71,7 +72,7 @@ public class CountDownView extends RelativeLayout {
     /**
      * Sets the initial time for this countdown. This is fixed and will
      * not change unless a call to {@link #setInitialTime} is made.
-     * @param millisInFuture
+     * @param millisInFuture - Time in milliseconds to countdown from.
      */
     public void setInitialTime(long millisInFuture) {
         mBeginTime = millisInFuture;
@@ -81,14 +82,14 @@ public class CountDownView extends RelativeLayout {
     /**
      * Sets the current countdown time. May not necessarily be the same
      * as the initial countdown time.
-     * @param millisInFuture
+     * @param millisInFuture - Time in milliseconds to countdown from.
      */
     public void setCurrentTime(long millisInFuture) {
         mCurrentMillis = millisInFuture;
-        setTime(millisInFuture);
+        updateUI(millisInFuture);
     }
 
-    private void setTime(long millisInFuture) {
+    private void updateUI(long millisInFuture) {
         mTime.setTimeInMillis(millisInFuture);
         if(mHours != null)
             mHours.setText(mFormatter.format(mTime.get(Calendar.HOUR)));
@@ -139,14 +140,16 @@ public class CountDownView extends RelativeLayout {
     public void reset() {
         stop();
         mCurrentMillis = mBeginTime;
-        setTime(mCurrentMillis);
+        updateUI(mCurrentMillis);
     }
 
     /**
      * Checks if the countdown timer is currently running.
      * @return true if running, false otherwise.
      */
-    public boolean isTimerRunning() { return mIsTimerRunning; }
+    public boolean isTimerRunning() {
+        return mIsTimerRunning;
+    }
 
     /**
      * Gets the current time of the countdown timer.
