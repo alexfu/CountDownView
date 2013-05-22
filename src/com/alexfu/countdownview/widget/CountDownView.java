@@ -155,4 +155,39 @@ public class CountDownView extends RelativeLayout {
     public long getCurrentMillis() {
         return mCurrentMillis;
     }
+
+    /**
+     * Sets a custom alarm sound to be played when timer goes off.
+     * @param assetPath - Relative path under assets directory.
+     *                    i.e. "sounds/Timer_Expire.ogg"
+     */
+    public void setAlarmSound(String assetPath) {
+        mAlarmSoundPath = assetPath;
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        if(!mIsTimerRunning) {
+            outState.putLong("currentMillis", mCurrentMillis);
+        }
+        outState.putBoolean("isTimerRunning", mIsTimerRunning);
+        outState.putBoolean("isAlarmRunning", mIsAlarmRunning);
+    }
+
+    public void onRestoreSavedInstanceState(Bundle savedState) {
+        mIsTimerRunning = savedState.getBoolean("isTimerRunning");
+        mIsAlarmRunning = savedState.getBoolean("isAlarmRunning");
+
+        if(mIsTimerRunning) {
+            mTimerIntent.putExtra("messenger", mMessenger);
+            getContext().startService(mTimerIntent);
+        }
+        else {
+            mCurrentMillis = savedState.getLong("currentMillis");
+            updateUI(mCurrentMillis);
+        }
+
+        if(mIsAlarmRunning) {
+            onCountDownFinished(); // Resume blinking
+        }
+    }
 }
