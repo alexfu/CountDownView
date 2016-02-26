@@ -69,6 +69,8 @@ You can also set text colors for digits and units:
 
 In code:
 
+
+
 ```java
 CountDownView cdv = (CountDownView) findViewById(R.id.countdownview);
 cdv.setInitialTime(30000); // Initial time of 30 seconds.
@@ -76,6 +78,15 @@ cdv.start();
 cdv.stop();
 cdv.reset();
 ```
+Implement TimerListner in your activity and override timerElapsed
+
+```java
+@Override
+    public void timerElapsed() {
+        
+    }
+```
+
 
 # TODO
 
