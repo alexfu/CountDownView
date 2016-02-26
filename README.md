@@ -78,7 +78,7 @@ cdv.start();
 cdv.stop();
 cdv.reset();
 ```
-To get notified when timer reaches zero implement TimerListner in your activity and override timerElapsed
+To get notified when timer reaches zero implement TimerListener in your activity and override timerElapsed
 
 ```java
 @Override
