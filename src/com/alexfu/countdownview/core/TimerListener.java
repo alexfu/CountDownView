@@ -1,5 +1,5 @@
 package com.alexfu.countdownview.core;
 
-public interface TimerListner {
+public interface TimerListener {
     void timerElapsed();
 }
