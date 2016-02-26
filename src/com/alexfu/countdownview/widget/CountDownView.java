@@ -26,6 +26,7 @@ public class CountDownView extends RelativeLayout {
     private boolean mIsTimerRunning = false, mIsAlarmRunning = false;
     private Intent mTimerIntent;
     private String mAlarmSoundPath;
+    private TimerListner listner;
 
     private static final Calendar mTime = Calendar.getInstance();
     private static final DecimalFormat mFormatter = new DecimalFormat("00");
@@ -43,6 +44,7 @@ public class CountDownView extends RelativeLayout {
     });
 
     private void onCountDownFinished() {
+        listner.timerElapsed();
         mIsTimerRunning = false;
         startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.blink));
     }
@@ -92,6 +94,12 @@ public class CountDownView extends RelativeLayout {
             ((TextView) v.findViewById(R.id.milliseconds_unit)).setTextColor(getResources().getColorStateList(unitColorId));
             mMilliseconds.setTextColor(getResources().getColorStateList(numColorId));
         }
+    }
+    /**
+     * Set listner to notify when timer reaches zero
+     */
+    public void setListner(TimerListner listner){
+        this.listner = listner;
     }
 
     /**
