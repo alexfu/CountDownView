@@ -90,6 +90,6 @@ To get notified when timer reaches zero implement TimerListner in your activity 
 
 # TODO
 
-~~Implement an event listener when timer is done/reaches zero.~~
+*~~Implement an event listener when timer is done/reaches zero.~~
 * Add support for different text sizes.
 * Add more TODO items.
