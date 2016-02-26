@@ -77,10 +77,20 @@ cdv.setInitialTime(30000); // Initial time of 30 seconds.
 cdv.start();
 cdv.stop();
 cdv.reset();
+
 ```
 To get notified when timer reaches zero implement TimerListener in your activity and override timerElapsed
 
 ```java
+
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ......
+        .....
+        cdv.setListner(this);
+    }
+
 @Override
     public void timerElapsed() {
         //Do something here
