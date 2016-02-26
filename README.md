@@ -88,7 +88,7 @@ To get notified when timer reaches zero implement TimerListener in your activity
         super.onCreate(savedInstanceState);
         ......
         .....
-        cdv.setListner(this);
+        cdv.setListener(this);
     }
 
 @Override
