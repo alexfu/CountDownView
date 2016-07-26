@@ -69,16 +69,37 @@ You can also set text colors for digits and units:
 
 In code:
 
+
+
 ```java
 CountDownView cdv = (CountDownView) findViewById(R.id.countdownview);
 cdv.setInitialTime(30000); // Initial time of 30 seconds.
 cdv.start();
 cdv.stop();
 cdv.reset();
+
 ```
+To get notified when timer reaches zero implement TimerListener in your activity and override timerElapsed
+
+```java
+
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ......
+        .....
+        cdv.setListener(this);
+    }
+
+@Override
+    public void timerElapsed() {
+        //Do something here
+    }
+```
+
 
 # TODO
 
-* Implement an event listener when timer is done/reaches zero.
+* ~~Implement an event listener when timer is done/reaches zero.~~
 * Add support for different text sizes.
 * Add more TODO items.
