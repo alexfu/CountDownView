@@ -7,6 +7,7 @@
     tools:context="com.alexfu.countdownview.sample.MainActivity">
 
     <com.alexfu.countdownview.CountDownView
+        android:id="@+id/view_count_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
