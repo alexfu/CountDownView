@@ -1,6 +1,10 @@
-.idea
 *.iml
-*.properties
-proguard-project.txt
 .gradle
-build/
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+/.idea/misc.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
