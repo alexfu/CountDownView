@@ -114,8 +114,8 @@ public class CountDownView extends View {
     @Override protected void onRestoreInstanceState(Parcelable state) {
         CountDownViewState viewState = (CountDownViewState) state;
         super.onRestoreInstanceState(viewState.getSuperState());
-        startDuration = viewState.startDuration;
-        setStartDuration(viewState.currentDuration);
+        setStartDuration(viewState.startDuration);
+        currentDuration = viewState.currentDuration;
         if (viewState.timerRunning) {
             start();
         }
