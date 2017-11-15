@@ -14,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cv = findViewById(R.id.view_count_down);
-        cv.start();
+        if (savedInstanceState == null) {
+            cv.setStartDuration(10 * 1000);
+            cv.start();
+        }
     }
 }

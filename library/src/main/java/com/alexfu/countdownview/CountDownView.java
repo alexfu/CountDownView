@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.CountDownTimer;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -22,6 +23,8 @@ public class CountDownView extends View {
     private Layout textLayout;
     private String text;
     private CountDownTimer timer;
+    private long currentTimerDuration;
+    private boolean timerRunning;
 
     public CountDownView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -31,24 +34,32 @@ public class CountDownView extends View {
     private void init() {
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(dpToPx(20, getResources()));
-        setStartDuration(5000000);
     }
 
     public void setStartDuration(long duration) {
-        timer = new CountDownTimer(duration, 1000) {
+        if (timerRunning) {
+            return;
+        }
+        currentTimerDuration = duration;
+        timer = new CountDownTimer(currentTimerDuration, 1000) {
             @Override public void onTick(long millis) {
+                currentTimerDuration = millis;
                 updateText(millis);
                 invalidate();
             }
 
             @Override public void onFinish() {
-                // No op
+                timerRunning = false;
             }
         };
         updateText(duration);
     }
 
     public void start() {
+        if (timerRunning) {
+            return;
+        }
+        timerRunning = true;
         timer.start();
     }
 
@@ -62,6 +73,23 @@ public class CountDownView extends View {
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         textLayout.draw(canvas);
+    }
+
+    @Nullable @Override protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        CountDownViewState viewState = new CountDownViewState(superState);
+        viewState.currentTimerDuration = currentTimerDuration;
+        viewState.timerRunning = timerRunning;
+        return viewState;
+    }
+
+    @Override protected void onRestoreInstanceState(Parcelable state) {
+        CountDownViewState viewState = (CountDownViewState) state;
+        super.onRestoreInstanceState(viewState.getSuperState());
+        setStartDuration(viewState.currentTimerDuration);
+        if (viewState.timerRunning) {
+            start();
+        }
     }
 
     void updateText(long duration) {
