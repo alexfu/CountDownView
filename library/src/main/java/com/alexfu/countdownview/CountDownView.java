@@ -46,6 +46,15 @@ public class CountDownView extends View {
             return;
         }
         currentTimerDuration = duration;
+        updateText(duration);
+    }
+
+    public void start() {
+        if (timerRunning) {
+            return;
+        }
+
+        timerRunning = true;
         timer = new CountDownTimer(currentTimerDuration, 1000) {
             @Override public void onTick(long millis) {
                 currentTimerDuration = millis;
@@ -54,18 +63,19 @@ public class CountDownView extends View {
             }
 
             @Override public void onFinish() {
-                timerRunning = false;
+                stop();
             }
         };
-        updateText(duration);
+        timer.start();
     }
 
-    public void start() {
-        if (timerRunning) {
+    public void stop() {
+        if (!timerRunning) {
             return;
         }
-        timerRunning = true;
-        timer.start();
+
+        timerRunning = false;
+        timer.cancel();
     }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
