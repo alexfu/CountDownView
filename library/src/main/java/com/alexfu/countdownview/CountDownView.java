@@ -28,7 +28,8 @@ public class CountDownView extends View {
     private Layout textLayout;
     private String text;
     private CountDownTimer timer;
-    private long currentTimerDuration;
+    private long startDuration;
+    private long currentDuration;
     private boolean timerRunning;
 
     public CountDownView(Context context, @Nullable AttributeSet attrs) {
@@ -45,7 +46,7 @@ public class CountDownView extends View {
         if (timerRunning) {
             return;
         }
-        currentTimerDuration = duration;
+        startDuration = currentDuration = duration;
         updateText(duration);
     }
 
@@ -55,9 +56,9 @@ public class CountDownView extends View {
         }
 
         timerRunning = true;
-        timer = new CountDownTimer(currentTimerDuration, 1000) {
+        timer = new CountDownTimer(currentDuration, 1000) {
             @Override public void onTick(long millis) {
-                currentTimerDuration = millis;
+                currentDuration = millis;
                 updateText(millis);
                 invalidate();
             }
@@ -67,6 +68,12 @@ public class CountDownView extends View {
             }
         };
         timer.start();
+    }
+
+    public void reset() {
+        stop();
+        setStartDuration(startDuration);
+        invalidate();
     }
 
     public void stop() {
@@ -93,7 +100,8 @@ public class CountDownView extends View {
     @Nullable @Override protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         CountDownViewState viewState = new CountDownViewState(superState);
-        viewState.currentTimerDuration = currentTimerDuration;
+        viewState.startDuration = startDuration;
+        viewState.currentDuration = currentDuration;
         viewState.timerRunning = timerRunning;
         return viewState;
     }
@@ -101,7 +109,8 @@ public class CountDownView extends View {
     @Override protected void onRestoreInstanceState(Parcelable state) {
         CountDownViewState viewState = (CountDownViewState) state;
         super.onRestoreInstanceState(viewState.getSuperState());
-        setStartDuration(viewState.currentTimerDuration);
+        startDuration = viewState.startDuration;
+        setStartDuration(viewState.currentDuration);
         if (viewState.timerRunning) {
             start();
         }

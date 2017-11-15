@@ -5,7 +5,8 @@ import android.os.Parcelable;
 import android.view.View;
 
 class CountDownViewState extends View.BaseSavedState {
-    long currentTimerDuration;
+    long startDuration;
+    long currentDuration;
     boolean timerRunning;
 
     public static final Parcelable.Creator<CountDownViewState> CREATOR
@@ -25,13 +26,15 @@ class CountDownViewState extends View.BaseSavedState {
 
     CountDownViewState(Parcel source) {
         super(source);
-        currentTimerDuration = source.readLong();
+        startDuration = source.readLong();
+        currentDuration = source.readLong();
         timerRunning = source.readInt() == 1;
     }
 
     @Override public void writeToParcel(Parcel out, int flags) {
         super.writeToParcel(out, flags);
-        out.writeLong(currentTimerDuration);
+        out.writeLong(startDuration);
+        out.writeLong(currentDuration);
         out.writeInt(timerRunning ? 1 : 0);
     }
 }

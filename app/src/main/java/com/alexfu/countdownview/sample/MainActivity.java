@@ -10,6 +10,7 @@ import com.alexfu.countdownview.CountDownView;
 public class MainActivity extends AppCompatActivity {
     private CountDownView countDownView;
     private Button startButton;
+    private Button resetButton;
     private Button stopButton;
 
     @Override
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         countDownView = findViewById(R.id.view_count_down);
         startButton = findViewById(R.id.button_start);
+        resetButton = findViewById(R.id.button_reset);
         stopButton = findViewById(R.id.button_stop);
 
         if (savedInstanceState == null) {
@@ -28,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 countDownView.start();
+            }
+        });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                countDownView.reset();
             }
         });
 
