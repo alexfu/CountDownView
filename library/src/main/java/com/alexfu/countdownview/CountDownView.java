@@ -148,18 +148,27 @@ public class CountDownView extends View {
         if (textAppearanceSpan != null) {
             spannableString.setSpan(textAppearanceSpan, 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), 2, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), 6, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), 10, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int hrIndex = text.indexOf("h");
+        int minIndex = text.indexOf("m");
+        int secIndex = text.indexOf("s");
+        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), hrIndex, hrIndex + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), minIndex, minIndex + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), secIndex, secIndex + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return new StaticLayout(spannableString, textPaint, textWidth, Layout.Alignment.ALIGN_CENTER, 0, 0, true);
     }
 
     static String generateCountdownText(long duration) {
-        Locale locale = Locale.getDefault();
         int hr = (int) (duration / HOUR);
         int min = (int) ((duration - (hr * HOUR)) / MIN);
         int sec = (int) ((duration - (hr * HOUR) - (min * MIN)) / SEC);
-        return String.format(locale, "%02dh %02dm %02ds", hr, min, sec);
+
+        Locale locale = Locale.getDefault();
+        String format = "%02d";
+        String formattedHr = String.format(locale, format, hr);
+        String formattedMin = String.format(locale, format, min);
+        String formattedSec = String.format(locale, format, sec);
+
+        return String.format(locale, "%sh %sm %ss", formattedHr, formattedMin, formattedSec);
     }
 
     private static float dpToPx(int dp, Resources resources) {
