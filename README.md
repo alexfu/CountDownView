@@ -3,7 +3,7 @@ A simple view that does a temporal count down.
 
 <center><img src="screenshot.png"></center>
 
-# Installatation
+# Installation
 Pull in CountDownView from Jitpack...
 
 ```
