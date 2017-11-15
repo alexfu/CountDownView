@@ -6,7 +6,7 @@ A simple view that does a temporal count down.
 # Installation
 Pull in CountDownView from Jitpack...
 
-```
+```gradle
 allprojects {
   repositories {
     maven { url 'https://jitpack.io' }
@@ -21,7 +21,7 @@ dependencies {
 # Usage
 Include in your layout...
 
-```
+```xml
 <com.alexfu.countdownview.CountDownView
     android:id="@+id/count_down"
     android:layout_width="wrap_content"
@@ -32,7 +32,7 @@ Include in your layout...
 
 Then, in your Activity/Fragment, obtain the view and call `start()`.
 
-```
+```java
 CountDownView countDownView = findViewById(R.id.count_down);
 countDownView.start();
 ```
