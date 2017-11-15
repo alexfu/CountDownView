@@ -9,11 +9,16 @@ import android.os.CountDownTimer;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.Layout;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+
+import java.util.Locale;
 
 public class CountDownView extends View {
     private static final int HOUR = 3600000;
@@ -99,14 +104,20 @@ public class CountDownView extends View {
 
     Layout createTextLayout(String text) {
         int textWidth = (int) textPaint.measureText(text);
-        return new StaticLayout(text, textPaint, textWidth, Layout.Alignment.ALIGN_NORMAL, 0, 0, false);
+        int unitTextSize = (int) (textPaint.getTextSize() / 2);
+        SpannableString spannedString = new SpannableString(text);
+        spannedString.setSpan(new AbsoluteSizeSpan(unitTextSize), 2, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannedString.setSpan(new AbsoluteSizeSpan(unitTextSize), 6, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannedString.setSpan(new AbsoluteSizeSpan(unitTextSize), 10, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return new StaticLayout(spannedString, textPaint, textWidth, Layout.Alignment.ALIGN_CENTER, 0, 0, true);
     }
 
     static String generateCountdownText(long duration) {
+        Locale locale = Locale.getDefault();
         int hr = (int) (duration / HOUR);
         int min = (int) ((duration - (hr * HOUR)) / MIN);
         int sec = (int) ((duration - (hr * HOUR) - (min * MIN)) / SEC);
-        return hr + "h " + min + "m " + sec + "s ";
+        return String.format(locale, "%02dh %02dm %02ds", hr, min, sec);
     }
 
     private static float dpToPx(int dp, Resources resources) {
