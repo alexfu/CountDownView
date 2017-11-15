@@ -23,10 +23,6 @@ public class MainActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.button_reset);
         stopButton = findViewById(R.id.button_stop);
 
-        if (savedInstanceState == null) {
-            countDownView.setStartDuration(1000 * 1000);
-        }
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 countDownView.start();

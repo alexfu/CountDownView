@@ -12,7 +12,8 @@
     <com.alexfu.countdownview.CountDownView
         android:id="@+id/view_count_down"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:startDuration="1000000"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

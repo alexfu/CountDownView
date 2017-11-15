@@ -2,6 +2,7 @@ package com.alexfu.countdownview;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -34,12 +35,16 @@ public class CountDownView extends View {
 
     public CountDownView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
-    private void init() {
+    private void init(AttributeSet attrs) {
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(dpToPx(20, getResources()));
+
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CountDownView);
+        setStartDuration(ta.getInt(R.styleable.CountDownView_startDuration, 0));
+        ta.recycle();
     }
 
     public void setStartDuration(long duration) {
