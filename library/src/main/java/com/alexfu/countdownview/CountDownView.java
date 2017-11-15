@@ -10,11 +10,12 @@ import android.os.CountDownTimer;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.Layout;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -26,8 +27,9 @@ public class CountDownView extends View {
     private static final int MIN = 60000;
     private static final int SEC = 1000;
     private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    @Nullable private TextAppearanceSpan textAppearanceSpan;
     private Layout textLayout;
-    private String text;
+    private SpannableStringBuilder spannableString = new SpannableStringBuilder();
     private CountDownTimer timer;
     private long startDuration;
     private long currentDuration;
@@ -38,13 +40,24 @@ public class CountDownView extends View {
         init(attrs);
     }
 
-    private void init(AttributeSet attrs) {
+    private void init(@Nullable AttributeSet attrs) {
         textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(dpToPx(20, getResources()));
 
+        int textSize;
+        int startDuration;
+        int textAppearanceRef;
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CountDownView);
-        setStartDuration(ta.getInt(R.styleable.CountDownView_startDuration, 0));
+        startDuration = ta.getInt(R.styleable.CountDownView_startDuration, 0);
+        textSize = ta.getDimensionPixelSize(R.styleable.CountDownView_android_textSize, (int) dpToPx(12, getResources()));
+        textAppearanceRef = ta.getResourceId(R.styleable.CountDownView_android_textAppearance, 0);
         ta.recycle();
+
+        textPaint.setTextSize(textSize);
+        if (textAppearanceRef != 0) {
+            textAppearanceSpan = new TextAppearanceSpan(getContext(), textAppearanceRef);
+            textPaint.setTextSize(textAppearanceSpan.getTextSize());
+        }
+        setStartDuration(startDuration);
     }
 
     public void setStartDuration(long duration) {
@@ -92,7 +105,7 @@ public class CountDownView extends View {
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (textLayout == null) {
-            textLayout = createTextLayout(text);
+            updateText(currentDuration);
         }
         setMeasuredDimension(textLayout.getWidth(), textLayout.getHeight());
     }
@@ -122,18 +135,23 @@ public class CountDownView extends View {
     }
 
     void updateText(long duration) {
-        text = generateCountdownText(duration);
+        String text = generateCountdownText(duration);
         textLayout = createTextLayout(text);
     }
 
     Layout createTextLayout(String text) {
         int textWidth = (int) textPaint.measureText(text);
         int unitTextSize = (int) (textPaint.getTextSize() / 2);
-        SpannableString spannedString = new SpannableString(text);
-        spannedString.setSpan(new AbsoluteSizeSpan(unitTextSize), 2, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannedString.setSpan(new AbsoluteSizeSpan(unitTextSize), 6, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannedString.setSpan(new AbsoluteSizeSpan(unitTextSize), 10, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return new StaticLayout(spannedString, textPaint, textWidth, Layout.Alignment.ALIGN_CENTER, 0, 0, true);
+        spannableString.clear();
+        spannableString.clearSpans();
+        spannableString.append(text);
+        if (textAppearanceSpan != null) {
+            spannableString.setSpan(textAppearanceSpan, 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), 2, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), 6, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(unitTextSize), 10, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return new StaticLayout(spannableString, textPaint, textWidth, Layout.Alignment.ALIGN_CENTER, 0, 0, true);
     }
 
     static String generateCountdownText(long duration) {

@@ -13,6 +13,7 @@
         android:id="@+id/view_count_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:startDuration="1000000"/>
 
     <LinearLayout
