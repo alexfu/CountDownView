@@ -32,7 +32,7 @@ public class CountDownView extends View {
     private SpannableStringBuilder spannableString = new SpannableStringBuilder();
     private CountDownTimer timer;
     private long startDuration;
-    long currentDuration;
+    private long currentDuration;
     private boolean timerRunning;
     private OnCountListener listener;
 
