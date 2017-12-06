@@ -19,7 +19,6 @@ import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-
 import java.util.Locale;
 
 public class CountDownView extends View {
@@ -34,7 +33,7 @@ public class CountDownView extends View {
     private long startDuration;
     private long currentDuration;
     private boolean timerRunning;
-    private OnCountListener listener;
+    @Nullable private CountDownListener listener;
 
     public CountDownView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -88,7 +87,7 @@ public class CountDownView extends View {
                 updateText(currentDuration);
                 invalidate();
                 if(listener != null){
-                    listener.onFinishCount();
+                    listener.onFinishCountDown();
                 }
 
             }
@@ -111,7 +110,7 @@ public class CountDownView extends View {
         timer.cancel();
     }
 
-    public void addOnCountListener(OnCountListener listener){
+    public void setListener(CountDownListener listener){
         this.listener = listener;
     }
 

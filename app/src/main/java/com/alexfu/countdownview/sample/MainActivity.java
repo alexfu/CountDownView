@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.alexfu.countdownview.CountDownView;
-import com.alexfu.countdownview.OnCountListener;
+import com.alexfu.countdownview.CountDownListener;
 
-public class MainActivity extends AppCompatActivity implements OnCountListener {
+public class MainActivity extends AppCompatActivity implements CountDownListener {
     private CountDownView countDownView;
     private Button startButton;
     private Button resetButton;
@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity implements OnCountListener {
                 countDownView.stop();
             }
         });
-        countDownView.addOnCountListener(this);
+        countDownView.setListener(this);
     }
 
     @Override
-    public void onFinishCount() {
+    public void onFinishCountDown() {
         Toast.makeText(this, "Time up!!!", Toast.LENGTH_LONG).show();
     }
 }
