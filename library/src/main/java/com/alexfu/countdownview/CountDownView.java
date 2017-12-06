@@ -32,8 +32,9 @@ public class CountDownView extends View {
     private SpannableStringBuilder spannableString = new SpannableStringBuilder();
     private CountDownTimer timer;
     private long startDuration;
-    private long currentDuration;
+    long currentDuration;
     private boolean timerRunning;
+    private OnCountListener listener;
 
     public CountDownView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -83,6 +84,13 @@ public class CountDownView extends View {
 
             @Override public void onFinish() {
                 stop();
+                currentDuration = 0L;
+                updateText(currentDuration);
+                invalidate();
+                if(listener != null){
+                    listener.onFinishCount();
+                }
+
             }
         };
         timer.start();
@@ -101,6 +109,10 @@ public class CountDownView extends View {
 
         timerRunning = false;
         timer.cancel();
+    }
+
+    public void addOnCountListener(OnCountListener listener){
+        this.listener = listener;
     }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
