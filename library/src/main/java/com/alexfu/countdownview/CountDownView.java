@@ -83,10 +83,7 @@ public class CountDownView extends View {
 
             @Override public void onFinish() {
                 stop();
-                currentDuration = 0L;
-                updateText(currentDuration);
-                invalidate();
-                if(listener != null){
+                if (listener != null) {
                     listener.onFinishCountDown();
                 }
 
@@ -110,7 +107,7 @@ public class CountDownView extends View {
         timer.cancel();
     }
 
-    public void setListener(CountDownListener listener){
+    public void setListener(CountDownListener listener) {
         this.listener = listener;
     }
 
