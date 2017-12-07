@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.Toast;
 import com.alexfu.countdownview.CountDownView;
+import com.alexfu.countdownview.CountDownListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CountDownListener {
     private CountDownView countDownView;
     private Button startButton;
     private Button resetButton;
@@ -40,5 +41,11 @@ public class MainActivity extends AppCompatActivity {
                 countDownView.stop();
             }
         });
+        countDownView.setListener(this);
+    }
+
+    @Override
+    public void onFinishCountDown() {
+        Toast.makeText(this, "Time up!!!", Toast.LENGTH_LONG).show();
     }
 }
