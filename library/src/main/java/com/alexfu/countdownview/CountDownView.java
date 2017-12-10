@@ -74,7 +74,7 @@ public class CountDownView extends View {
         }
 
         timerRunning = true;
-        timer = new CountDownTimer(currentDuration, 1000) {
+        timer = new CountDownTimer(currentDuration, 100) {
             @Override public void onTick(long millis) {
                 currentDuration = millis;
                 updateText(millis);
