@@ -1,10 +1,10 @@
 # CountDownView
-A simple view that does a temporal count down.
+A simple view that does a temporal count down with fields - Hours, Minutes and Seconds.
 
 <center><img src="screenshot.png"></center>
 
 # Installation
-Pull in CountDownView from Jitpack...
+Pull in CountDownView from Jitpack.
 
 ```gradle
 allprojects {
@@ -19,7 +19,7 @@ dependencies {
 ```
 
 # Usage
-Include in your layout...
+Include in your layout.
 
 ```xml
 <com.alexfu.countdownview.CountDownView
